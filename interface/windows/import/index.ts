@@ -239,7 +239,7 @@ export const twoFasAuthFile = async () => {
 			console.log(service)
 
 			if (service.otp.tokenType === "TOTP") {
-				if (service.otp.source === "Link") {
+				if (service.otp.source === "Link" && service.otp.link !== undefined && service.otp.link.trim()) {
 					importString += totpImageConverter(service.otp.link)
 				} else {
 					importString += totpImageConverter(`otpauth://totp/${service.name}?secret=${service.secret}&issuer=${service.name}`)

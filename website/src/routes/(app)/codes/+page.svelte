@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte"
+	import { onDestroy, onMount } from "svelte"
 	import type {} from "@interface/utils/types.d.ts"
 	import { TOTP } from "otpauth"
 
@@ -110,24 +110,23 @@
 			}
 		})
 	})
+
+	onDestroy(() => {
+		clearInterval(codesRefresher)
+	})
 </script>
 
 <div class="min-h-screen flex justify-center items-start">
 	<div
-		class="transparent-900 p-3 sm:p-10 rounded-xl main m-auto my-20 w-[95%] text-center lg:w-1/2"
+		class="transparent-900 p-3 sm:p-10 rounded-xl main m-auto my-20 w-[95%] text-center lg:w-2/3"
 	>
-		<div class="mb-10">
-			<h1 class="text-4xl sm:text-6xl font-bold">Authme</h1>
-			<input type="file" id="fileUpload" accept=".authme" />
-		</div>
-
-		<div class="content mx-auto flex flex-row flex-wrap items-center justify-center gap-10">
+		<div class="content mx-auto flex flex-row flex-wrap items-center justify-center gap-5">
 			{#if codes !== undefined}
 				{#each codes.issuers as item, i}
 					<div class="transparent-800 p-4 rounded-xl w-full lg:w-[80%] space-y-3">
-						<div class="flex">
+						<div class="flex items-center justify-center">
 							<div class="flex flex-1 justify-start">
-								<p class="text-3xl whitespace-nowrap">
+								<p class="text-2xl font-medium whitespace-nowrap">
 									{#if item.length > 12}
 										{item.slice(0, 12)}...
 									{:else}
@@ -136,7 +135,7 @@
 								</p>
 							</div>
 							<div class="flex flex-1 justify-center px-3">
-								<p class="text-2xl mt-1" id={`code${i}`}>{getInitialCode(i)}</p>
+								<p class="text-xl mt-1" id={`code${i}`}>{getInitialCode(i)}</p>
 							</div>
 							<div class="flex flex-1 justify-end">
 								<button
@@ -167,6 +166,13 @@
 						</div>
 					</div>
 				{/each}
+			{/if}
+
+			{#if codes === undefined || codes?.issuers.length === 0}
+				<div class="flex flex-col items-center justify-center gap-3">
+					<h1 class="text-2xl">No codes found</h1>
+					<a href="/import" class="button">Import codes</a>
+				</div>
 			{/if}
 		</div>
 	</div>

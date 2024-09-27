@@ -1,15 +1,14 @@
 <script lang="ts">
+	import { goto } from "$app/navigation"
 	import { onMount } from "svelte"
 
-	onMount(async () => {
-		const convertImport = await import("@interface/utils/convert")
-		const settingsImport = await import("@interface/stores/settings")
+	onMount(() => {
+		const fileChange = async (event: Event) => {
+			const convertImport = await import("@interface/utils/convert")
+			const settingsImport = await import("@interface/stores/settings")
 
-		const settings = settingsImport.getSettings()
+			const settings = settingsImport.getSettings()
 
-		const fileUpload = document.getElementById("fileUpload")
-
-		fileUpload.addEventListener("change", (event) => {
 			// @ts-ignore
 			const file = event.target.files[0]
 
@@ -26,11 +25,20 @@
 					// save data
 					settings.vault.codes = importString
 					settingsImport.setSettings(settings)
+					goto("/codes")
 				}
 
 				reader.readAsText(file)
 			}
-		})
+		}
+
+		const fileUpload = document.getElementById("fileUpload")
+		console.log(fileUpload)
+		fileUpload.addEventListener("change", fileChange)
+
+		return () => {
+			fileUpload.removeEventListener("change", fileChange)
+		}
 	})
 </script>
 

@@ -10,6 +10,7 @@
 		types: [],
 	} as LibImportFile
 	let codesRefresher: NodeJS.Timeout
+	let noCodes = false
 
 	const getInitialCode = (i: number) => {
 		const token = new TOTP({
@@ -80,35 +81,11 @@
 			const data = convertImport.textConverter(importString, settings.settings.sortCodes)
 			codes = data
 			refreshCodes()
+		} else {
+			noCodes = true
 		}
 
-		const fileUpload = document.getElementById("fileUpload")
-
-		fileUpload.addEventListener("change", (event) => {
-			// @ts-ignore
-			const file = event.target.files[0]
-
-			if (file) {
-				const reader = new FileReader()
-
-				reader.onload = (event) => {
-					const file: LibAuthmeFile = JSON.parse(event.target.result.toString())
-
-					const importString = convertImport.decodeBase64(file.codes)
-
-					const data = convertImport.textConverter(importString, settings.settings.sortCodes)
-
-					codes = data
-					refreshCodes()
-
-					// save data
-					settings.vault.codes = importString
-					settingsImport.setSettings(settings)
-				}
-
-				reader.readAsText(file)
-			}
-		})
+		document.querySelector("#con").classList.remove("hidden")
 	})
 
 	onDestroy(() => {
@@ -116,31 +93,33 @@
 	})
 </script>
 
-<div class="min-h-screen flex justify-center items-start">
-	<div
-		class="transparent-900 p-3 sm:p-10 rounded-xl main m-auto my-20 w-[95%] text-center lg:w-2/3"
-	>
+<div class="flex justify-center items-start">
+	<div id="con" class="transparent-900 p-5 hidden rounded-xl main m-auto my-20 w-[95%] text-center lg:w-2/3">
 		<div class="content mx-auto flex flex-row flex-wrap items-center justify-center gap-5">
 			{#if codes !== undefined}
 				{#each codes.issuers as item, i}
-					<div class="transparent-800 p-4 rounded-xl w-full lg:w-[80%] space-y-3">
-						<div class="flex items-center justify-center">
-							<div class="flex flex-1 justify-start">
-								<p class="text-2xl font-medium whitespace-nowrap">
-									{#if item.length > 12}
-										{item.slice(0, 12)}...
-									{:else}
-										{item}
-									{/if}
-								</p>
+					<div class="transparent-800 p-4 rounded-xl w-full">
+						<div class="flex flex-row justify-between">
+							<div class="flex flex-col justify-start mb-3">
+								<div class="flex">
+									<p class="text-2xl font-medium whitespace-nowrap">
+										{#if item.length > 16}
+											{item.slice(0, 16)}...
+										{:else}
+											{item}
+										{/if}
+									</p>
+								</div>
+
+								<div class="flex">
+									<p class="text-2xl text-gray-200" id={`code${i}`}>{getInitialCode(i)}</p>
+								</div>
 							</div>
-							<div class="flex flex-1 justify-center px-3">
-								<p class="text-xl mt-1" id={`code${i}`}>{getInitialCode(i)}</p>
-							</div>
-							<div class="flex flex-1 justify-end">
+
+							<div class="flex items-center justify-between mb-3">
 								<button
 									id={`button${i}`}
-									class="bg-white flex justify-center items-center font-medium rounded-2xl hover:bg-gray-200 h-12 w-12 duration-200 px-3 text-black text-xl py-1"
+									class="bg-white flex size-14 justify-center items-center font-medium rounded-2xl gap-1 hover:bg-gray-200 duration-200 px-4 text-black text-lg py-2"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +147,7 @@
 				{/each}
 			{/if}
 
-			{#if codes === undefined || codes?.issuers.length === 0}
+			{#if noCodes}
 				<div class="flex flex-col items-center justify-center gap-3">
 					<h1 class="text-2xl">No codes found</h1>
 					<a href="/import" class="button">Import codes</a>

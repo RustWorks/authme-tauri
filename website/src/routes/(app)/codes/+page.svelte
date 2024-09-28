@@ -94,7 +94,10 @@
 </script>
 
 <div class="flex justify-center items-start">
-	<div id="con" class="transparent-900 p-5 hidden rounded-xl main m-auto my-20 w-[95%] text-center lg:w-2/3">
+	<div
+		id="con"
+		class="transparent-900 p-5 hidden rounded-xl main m-auto my-20 w-[95%] text-center lg:w-2/3"
+	>
 		<div class="content mx-auto flex flex-row flex-wrap items-center justify-center gap-5">
 			{#if codes !== undefined}
 				{#each codes.issuers as item, i}
@@ -146,41 +149,14 @@
 					</div>
 				{/each}
 			{/if}
-
-			{#if noCodes}
-				<div class="flex flex-col items-center justify-center gap-3">
-					<h1 class="text-2xl">No codes found</h1>
-					<a href="/import" class="button">Import codes</a>
-				</div>
-			{/if}
 		</div>
+
+		{#if noCodes}
+			<div class="flex flex-col justify-start items-start">
+				<h1 class="text-2xl">Import your 2FA codes</h1>
+				<h2 class="text-xl text-gray-200">Import your existing 2FA codes on the Import page.</h2>
+				<a href="/import" class="button mt-3">Import codes</a>
+			</div>
+		{/if}
 	</div>
 </div>
-
-<style>
-	/* progress bar */
-	.progressFull {
-		position: relative;
-		width: 100%;
-		height: 15px;
-		background: hsla(0, 0%, 100%, 5.12%);
-		border-radius: 30px;
-		overflow: hidden;
-	}
-
-	.progressFill {
-		width: 0%;
-		height: 100%;
-		background: white;
-		transition: all 0.2s;
-	}
-
-	/* backdrops */
-	.transparent-900 {
-		background-color: hsla(0, 0%, 100%, 5.12%);
-	}
-
-	.transparent-800 {
-		background-color: hsla(0, 0%, 100%, 3.26%);
-	}
-</style>

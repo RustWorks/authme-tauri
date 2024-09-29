@@ -94,10 +94,7 @@
 </script>
 
 <div class="flex justify-center items-start">
-	<div
-		id="con"
-		class="transparent-900 p-5 hidden rounded-xl main m-auto my-20 w-[95%] text-center lg:w-2/3"
-	>
+	<div id="con" class="transparent-900 p-5 hidden rounded-xl main m-auto my-20 w-[95%] lg:w-2/3">
 		<div class="content mx-auto flex flex-row flex-wrap items-center justify-center gap-5">
 			{#if codes !== undefined}
 				{#each codes.issuers as item, i}
@@ -154,7 +151,7 @@
 		{#if noCodes}
 			<div class="flex flex-col justify-start items-start">
 				<h1 class="text-2xl">Import your 2FA codes</h1>
-				<h2 class="text-xl text-gray-200">Import your existing 2FA codes on the Import page.</h2>
+				<h2 class="text-xl text-gray-200">Import your existing 2FA codes from Authme desktop.</h2>
 				<a href="/import" class="button mt-3">Import codes</a>
 			</div>
 		{/if}

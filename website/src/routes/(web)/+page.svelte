@@ -471,7 +471,7 @@
 								/>
 							</svg>
 
-							<h1 class="text-2xl font-medium">Windows Installer x64 (.exe)</h1>
+							<h1 class="text-2xl font-medium">Windows (x64)</h1>
 						</div>
 
 						<div
@@ -536,7 +536,7 @@
 							</svg>
 
 							<span class="title-font font-medium text-white">
-								<h1 class="text-2xl">Linux Installer x64 (.appimage)</h1>
+								<h1 class="text-2xl">Linux (x64)</h1>
 							</span>
 						</div>
 
@@ -605,7 +605,7 @@
 							</svg>
 
 							<span class="title-font font-medium text-white">
-								<h1 class="text-2xl">macOS Installer Universal (.dmg)</h1>
+								<h1 class="text-2xl">macOS (Universal)</h1>
 							</span>
 						</div>
 

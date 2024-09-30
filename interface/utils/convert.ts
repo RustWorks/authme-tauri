@@ -42,11 +42,7 @@ export const textConverter = (text: string, sortNumber: number): LibImportFile =
 		if (data[i].startsWith("Name")) {
 			const name = data[i].slice(8).trim()
 
-			if (name.length > 40) {
-				names.push(`${name.slice(0, 38)}...`)
-			} else {
-				names.push(name)
-			}
+			names.push(name)
 		}
 
 		// Push secrets to array
@@ -74,11 +70,7 @@ export const textConverter = (text: string, sortNumber: number): LibImportFile =
 		if (data[i].startsWith("Issuer")) {
 			const issuer = data[i].slice(8).trim()
 
-			if (issuer.length > 16) {
-				issuers.push(`${issuer.slice(0, 14)}...`)
-			} else {
-				issuers.push(issuer)
-			}
+			issuers.push(issuer)
 		}
 
 		// Push types to array
